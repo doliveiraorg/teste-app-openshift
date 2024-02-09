@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/gin-gonic/gin"
 	"net/http"
+        "os"
 )
 
 func main() {
@@ -15,6 +16,18 @@ func main() {
 			"message": "Hello, World!",
 		})
 	})
+
+        router.GET("/printenv", func(c *gin.Context) {
+                myEnv := os.Getenv("MySuperValue")
+	
+		if myEnv == "" {
+		   myEnv = "ValueNotFound"
+                }
+
+                c.JSON(http.StatusOK, gin.H{
+                        "envValue": myEnv,
+                })
+        })
 
 	// Run the server on port 8080
 	router.Run(":8080")
